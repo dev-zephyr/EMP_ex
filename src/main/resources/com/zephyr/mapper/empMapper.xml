@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.zephyr.mapper.empMapper">
+
+	<select id="getList" resultType="com.zephyr.vo.EmpVO">
+		select 
+			empno, ename, job, mgr, hiredate, sal, comm, deptno
+		from
+			(
+			select
+				rownum rn, empno, ename, job, mgr, hiredate, sal, comm, deptno
+			from
+				emp
+			where
+			
+			<include refid="criteria"></include>
+			
+	<![CDATA[
+				rownum <= #{page} * #{amount}
+				and status = 'y'
+			)
+		where rn > (#{page} - 1) * #{amount}
+		order by empno desc
+	]]>
+	</select>
+	
+	<select id="sortList" parameterType="HashMap" resultType="com.zephyr.vo.EmpVO">
+		
+		<![CDATA[
+		select 
+			empno, ename, job, mgr, hiredate, sal, comm, deptno
+		from
+			(
+			select rownum rn, empno, ename, job, mgr, hiredate, sal, comm, deptno
+			from emp
+			where status = 'y'
+			order by 
+		]]>
+			<choose>
+				<when test="orderType == 'empNo'">empNo</when>
+				<when test="orderType == 'ename'">ename</when>
+				<when test="orderType == 'job'">job</when>
+				<when test="orderType == 'mgr'">mgr</when>
+				<when test="orderType == 'hireDate'">hireDate</when>
+				<when test="orderType == 'sal'">sal</when>
+				<when test="orderType == 'comm'">comm</when>
+				<when test="orderType == 'deptNo'">deptNo</when>
+			</choose>
+			<choose>
+				<when test="order == 'asc'"> asc</when>
+				<when test="order == 'desc'"> desc</when>
+			</choose>
+			
+		<![CDATA[
+			)
+		where (#{cri.page} - 1) * #{cri.amount} < rn AND rn <= #{cri.page} * #{cri.amount}
+		]]>
+	</select>
+
+	<select id="getTotal" resultType="int">
+		select count(*) from emp
+		where
+		<include refid="criteria"></include>
+		empno > 0
+	</select>
+	
+	<select id="getMember" resultType="com.zephyr.vo.EmpVO">
+		select * from emp
+		where empno = #{empNo}
+	</select>
+	
+	<insert id="insert">
+		insert into emp
+			(empno, ename, job, mgr, hireDate, sal, comm, deptNo)
+		values
+			(
+				(select empno from 
+					(
+						select rownum rn, empno
+						from emp
+						where empno > 0
+						order by empno desc
+					)
+				 where rn = 1) + 1
+			, #{ename}, #{job}, #{mgr}, sysdate, #{sal}, #{comm}, #{deptNo}
+			)
+			
+	</insert>
+	
+	<update id="update">
+		update emp
+		set ename = #{ename}, job = #{job}, mgr = #{mgr}, sal = #{sal}
+			, comm = #{comm}, deptNo = #{deptNo}
+		where empno = #{empNo}
+	</update>
+	
+	<update id="delete">
+		update emp
+		set status = 'n'
+		where empno = #{empNo}
+	</update>
+	
+	
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'n'.toString()">
+							ename like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'j'.toString()">
+							job like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'd'.toString()">
+							deptno like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+
+</mapper>  
+  
+  
