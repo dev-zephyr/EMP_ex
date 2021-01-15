@@ -34,7 +34,7 @@
 <img src="https://user-images.githubusercontent.com/68098214/104687213-1ebb9500-5742-11eb-889f-7c925f07bb13.png">
 
 * Backend는 일반적인 Spring-mvc 구조에 myBatis를 활용하기 위한 mapper 인터페이스 및 xml 사용
-* Frontend는 유지보수를 편하게 하기 위해 view를 담당하는 .jsp와 ajax 및 유효성 검사를 위한 .js파일들을 파일을 각각 분리하여 설계    
+* Frontend는 유지보수를 편하게 하기 위해 view를 담당하는 .jsp 파일과 ajax 및 유효성 검사를 위한 .js파일들을 각각 분리하여 grouping    
 
 
 
