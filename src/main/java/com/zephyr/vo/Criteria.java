@@ -11,6 +11,7 @@ public class Criteria {
 	private String keyword;
 	private String type;
 	
+	// 시작 페이지는 1, 한 페이지당 게시물은 10으로 기본값 세팅
 	public Criteria() {
 		this(1, 10);
 	}
@@ -20,9 +21,9 @@ public class Criteria {
 		this.amount = amount;
 	}
 	
+	
 	public String[] getTypeArr() {
 		return type == null ? new String[] {} : type.split("");
 	}
-	
 	
 }

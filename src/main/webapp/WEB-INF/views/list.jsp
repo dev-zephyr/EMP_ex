@@ -8,7 +8,7 @@
 <div class="container-fluid">
 
 	<div class="text-center mt-5 mb-5">
-		<h2>사원 관리</h2>
+		<h2>사원 관리 by zephyr</h2>
 	</div>
 
 	<div class="row">
@@ -199,7 +199,7 @@
 						</div>
 					</div>
 					<input type="text" class="form-control" name="keyword" id="keyword">
-					<input type="hidden" name="type" id="type">
+					<input type="hidden" name="type" id="type" value="">
 					<button type="button" class="btn btn-outline-secondary"
 						id="searchBtn">검색</button>
 				</div>

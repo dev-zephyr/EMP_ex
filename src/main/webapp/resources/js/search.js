@@ -1,6 +1,7 @@
 
+// jQuery 버전
 
-$(document).ready(function() {
+/*$(document).ready(function() {
 	
 	let searchTypeIsSelected = false;
 	
@@ -37,4 +38,56 @@ $(document).ready(function() {
 		location.href = "/list?keyword=" + keyword + "&type=" + type;
 	})
 	
-})
+})*/
+
+
+// vanilla javascript 버전
+
+window.onload = function() {
+	
+	let searchTypeIsSelected = false;
+	
+	let typeInput = document.getElementById("type");
+	
+	let keywordViewer = document.getElementById("keywordViewer");
+	
+	let keyword_N_El = document.getElementById("keyword_N");
+	let keyword_J_El = document.getElementById("keyword_J");
+	let keyword_D_El = document.getElementById("keyword_D");
+	
+	let searchBtn_El = document.getElementById("searchBtn");
+	
+	let setKeywordAndType = function(type, keyword) {
+		typeInput.value = type;
+		keywordViewer.innerHTML = keyword;
+		searchTypeIsSelected = true;
+	}
+	
+	keyword_N_El.addEventListener('click', function() {
+		setKeywordAndType('n', '이름');
+	});
+	
+	keyword_J_El.addEventListener('click', function() {
+		setKeywordAndType('j', '직책');
+	});
+	
+	keyword_D_El.addEventListener('click', function() {
+		setKeywordAndType('d', '부서번호');
+	});
+	
+	searchBtn_El.addEventListener('click', function() {
+	
+		if(!searchTypeIsSelected) {
+			alert('검색 조건을 선택하세요');
+			return;
+		}
+		
+		let keyword = document.getElementById("keyword").value;
+		let type = typeInput.value;
+		
+		location.href = "/list?keyword=" + keyword + "&type=" + type;
+		
+	});
+	
+	
+}
